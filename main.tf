@@ -1,5 +1,5 @@
 resource "aws_iam_role" "example_role" {
-  name = "terraform-example-role"
+  name = "role-teste"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -15,8 +15,8 @@ resource "aws_iam_role" "example_role" {
   })
 }
 
-resource "aws_iam_policy" "example_policy" {
-  name        = "terraform-example-policy"
+resource "aws_iam_policy" "policy-teste" {
+  name        = "policy-teste"
   description = "Policy criada via Terraform"
 
   policy = jsonencode({
