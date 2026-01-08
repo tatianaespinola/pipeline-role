@@ -9,27 +9,38 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       # 1️⃣ Baixa o código do repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Instala o Terraform
+      # 2️⃣ Conecta GitHub à AWS via OIDC
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::458144597632:role/role-github
+          aws-region: us-east-1
+
+      # 3️⃣ Instala o Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 3️⃣ BUILD — inicializa Terraform
+      # 4️⃣ BUILD — inicializa Terraform
       - name: Terraform Init
         run: terraform init
 
-      # 4️⃣ TEST — valida sintaxe
+      # 5️⃣ TEST — valida sintaxe
       - name: Terraform Validate
         run: terraform validate
 
-      # 5️⃣ TEST — mostra o plano (simulação)
+      # 6️⃣ TEST — simula mudanças
       - name: Terraform Plan
         run: terraform plan
 
-      # 6️⃣ DEPLOY — aplica na AWS
+      # 7️⃣ DEPLOY — aplica na AWS
       - name: Terraform Apply
         run: terraform apply -auto-approve
