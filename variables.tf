@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "role_name" {
   description = "Nome da IAM Role"
   type        = string
-  default     = "data-engineering-role"
+  default     = "data-engineering-inline-role"
 }
 variable "policy_name" {
   description = "Nome da IAM Policy"
