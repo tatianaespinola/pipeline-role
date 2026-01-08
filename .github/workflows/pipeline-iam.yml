@@ -1,28 +1,35 @@
-name: Criação AWS IAM Role
+name: Terraform IAM Role Pipeline
 
 on:
   push:
-    branches: ["*"]
+    branches:
+      - main
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # 1️⃣ Baixa o código do repositório
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Instala o Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # 3️⃣ BUILD — inicializa Terraform
       - name: Terraform Init
-        working-directory: terraform
         run: terraform init
 
+      # 4️⃣ TEST — valida sintaxe
+      - name: Terraform Validate
+        run: terraform validate
+
+      # 5️⃣ TEST — mostra o plano (simulação)
       - name: Terraform Plan
-        working-directory: terraform
         run: terraform plan
 
+      # 6️⃣ DEPLOY — aplica na AWS
       - name: Terraform Apply
-        working-directory: terraform
         run: terraform apply -auto-approve
