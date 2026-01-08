@@ -1,6 +1,3 @@
-# -------------------------------
-# TRUST POLICY (quem assume a role)
-# -------------------------------
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     effect = "Allow"
@@ -23,9 +20,6 @@ resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
-# ----------------------------------
-# PERMISSION POLICY (o que a role pode fazer)
-# ----------------------------------
 data "aws_iam_policy_document" "permissions_policy" {
   statement {
     effect = "Allow"
@@ -34,7 +28,10 @@ data "aws_iam_policy_document" "permissions_policy" {
       "s3:*",
       "glue:*",
       "logs:*",
-      "cloudwatch:*"
+      "cloudwatch:*",
+      "ec2:*",
+      "sns:*",
+      "events:*"
     ]
 
     resources = ["*"]
